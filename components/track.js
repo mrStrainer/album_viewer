@@ -1,10 +1,13 @@
-import React,{ Component } from "react";
-import { Text, View } from 'react-native';
+import React, { Component } from "react";
+import { Text, View, StyleSheet } from "react-native";
 
-export default class Track extends React.Component {
-    render() {
-        return (
-            <Text key={this.props.tracknr} style={{color:'#fff', padding:2,}}> {this.props.name} </Text>
-        )
-    }
+const Track = (props) => {
+	const { tracknr, name } = props;
+	return (
+		<View style={{flex: 1}}>
+			<Text key={tracknr} style={{ color: "#fff", padding: 2 }}>{name}</Text>
+		</View>
+	);
 }
+
+export default Track;

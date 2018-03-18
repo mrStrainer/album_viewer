@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, Text, StyleSheet, Image } from "react-native";
+import { ActivityIndicator, View, StyleSheet } from "react-native";
 import Track from "./track";
-import PlImage from '../src/img/album_cover_def.jpg';
+import FetchError from "./fetchError";
+import AlbumHeader from "./albumHeader";
+import Placeholder_img from '../src/img/album_cover_def.jpg';
+
 
 export default class Album extends React.Component {
     constructor(props) {
@@ -12,14 +15,19 @@ export default class Album extends React.Component {
                 artist:'',
                 release_date:0,
                 tracks:[],
-                image: PlImage
+                image: Placeholder_img
             },
             isLoading:false 
         }
     }
     componentDidMount() {
         this.setState({isLoading:true})
-        fetch('http://localhost:8080/v1/albums/')
+        this.getAlbum();
+    }
+
+    //refactor for type and id
+    getAlbum() {
+        return fetch('http://localhost:8080/v1/albums/')
             .then(response => response.json())
             .then(
                 (data) => {
@@ -36,23 +44,18 @@ export default class Album extends React.Component {
                     this.setState({ isLoading:false, error });
                 }
             )
-            .catch(error => console.log(`Error ${error}`))
+            .catch(error => console.log(`Error: ${error}`));
     }
+
     render() {
         const { isLoading, album, error } = this.state;
         if (error) {
-            return (
-                <View>
-                    <Text>Fetch aint happening {error.message}</Text>
-                </View>
-            )
+            return <FetchError />
         }
         if (!isLoading) {
             return (
                 <View style={{ flex: 1}}>
-                    <Image source={{ uri: album.image.url}} style={textStyles.centerImage}/>
-                    <Text style={{textAlign: 'center', color:'#fff', marginTop:10}}> {album.name}</Text>
-                    <Text style={textStyles.centerText}> {album.release_date} </Text>
+                    <AlbumHeader url={album.image.url} name={album.name} release_date={album.release_date}/>
                     {album.tracks.map((item) => <Track key={item.track_number} name={item.name} style={textStyles.centerText}/>)}
                 </View>       
             )
@@ -64,13 +67,10 @@ export default class Album extends React.Component {
         )
     }
 }
+
 const textStyles = StyleSheet.create({
     centerText: {
         textAlign: 'center',
         color:'#ccc',
-    },
-    centerImage: {
-        width:300,
-        height:300
     }
 });
