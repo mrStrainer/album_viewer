@@ -1,14 +1,22 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, ScrollView, SafeAreaView } from "react-native";
 import Album from "./components/album";
 
 export default class App extends React.Component {
+
+  //this.yOffset=0;
+
+  handleScroll(event) {
+    //console.log(event.nativeEvent.contentOffset.y);
+    //onScroll={this.handleScroll} scrollEventThrottle={64} 
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <Album />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -16,13 +24,10 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#181818",
-    alignItems: "center",
-    justifyContent: "center"
+    flex:1,
   },
   safeArea: {
     flex:1,
-    backgroundColor:'#181818'
+    backgroundColor:'#181818',
   }
 });

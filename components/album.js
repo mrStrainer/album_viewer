@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, StyleSheet } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import Track from "./track";
 import FetchError from "./fetchError";
 import AlbumHeader from "./albumHeader";
@@ -9,6 +9,7 @@ import Placeholder_img from '../src/img/album_cover_def.jpg';
 export default class Album extends React.Component {
     constructor(props) {
         super(props)
+
         this.state = { 
             album: {
                 name: '',
@@ -21,42 +22,63 @@ export default class Album extends React.Component {
         }
     }
     componentDidMount() {
-        this.setState({isLoading:true})
-        this.getAlbum();
+        this.setState({isLoading:true});
+
+        this.getAlbum().then(this.getAlbumTracks());
+        //this.getAlbumTracks();
     }
 
-    //refactor for type and id
-    getAlbum() {
-        return fetch('http://localhost:8080/v1/albums/')
+    getAlbum(id = 0) {
+        return fetch(`http://192.168.0.31:8080/v1/albums/${id}`)
             .then(response => response.json())
             .then(
                 (data) => {
                     this.setState({ album: {
+                        ...this.state.album,
                         name:data.name,
                         artist:data.artists[0].name,
                         release_date:data.release_date,
-                        tracks:data.tracks.items,
                         image:data.images[1]
                     }, isLoading: false })
                 },
                 (error) => {
-                    console.log(`Fetch error: ${error}`);
+                    console.error(`\nFetch error: ${error}\n No Album info`);
                     this.setState({ isLoading:false, error });
                 }
             )
-            .catch(error => console.log(`Error: ${error}`));
+            .catch(error => console.error(`\nError: ${error}\n getAlbum fetch`));
+    }
+
+    getAlbumTracks(id = 0) {
+        return fetch(`http://192.168.0.31:8080/v1/albums/${id}/tracks/`)
+            .then(response => response.json())
+            .then(
+                (data) => {
+                    this.setState({ album: {
+                        ...this.state.album,
+                        tracks:data.items,
+                    }, isLoading: false })
+                },
+                (error) => {
+                    console.error(`\nFetch error: ${error}\n No tracks`);
+                    this.setState({ isLoading:false, error });
+                }
+            )
+            .catch(error => console.error(`\nError: ${error}\n getAlbumTracks fetch`));
     }
 
     render() {
         const { isLoading, album, error } = this.state;
-        if (error) {
-            return <FetchError />
-        }
+
+        {error && <FetchError />}
+
         if (!isLoading) {
             return (
-                <View style={{ flex: 1}}>
+                <View style={{ flex: 1, alignSelf: 'stretch'}}>
                     <AlbumHeader url={album.image.url} name={album.name} release_date={album.release_date}/>
-                    {album.tracks.map((item, i) => <Track key={item.track_number} tracknr={item.track_number}  duration={item.duration_ms} name={item.name} last={i === album.tracks.length-1 ? true : false}/>)}
+                    <View style={{flex:1, padding:15, flexDirection: 'column'}}>
+                        {album.tracks.map((item, i) => <Track key={item.track_number} tracknr={item.track_number}  duration={item.duration_ms} name={item.name} last={i === album.tracks.length-1 ? true : false}/>)}
+                    </View>
                 </View>       
             )
         } 
@@ -67,10 +89,3 @@ export default class Album extends React.Component {
         )
     }
 }
-
-const textStyles = StyleSheet.create({
-    centerText: {
-        textAlign: 'center',
-        color:'#ccc',
-    }
-});

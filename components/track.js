@@ -10,23 +10,26 @@ function formatDuration(duration_ms) {
 
 const Styles = StyleSheet.create({
 	trackView: {
-		flex:1,
 		borderBottomColor:'#282828',
 		borderBottomWidth:1,
-		padding:0,
+		padding:5,
 		margin:0,
-		flexDirection:'row'
+		flexDirection:'row',
+		height:40,
+		alignItems:'center'
 	},
 	trackViewNoBorder: {
 		flex:1,
-		padding:0,
+		padding:5,
 		margin:0,
-		flexDirection:'row'
+		flexDirection:'row',
+		height:40,
+		alignItems:'center'
 	},
 	trackTitle: {
 		color: "#ccc", 
 		padding: 2, 
-		paddingTop:6
+		paddingTop:6,
 	},
 	trackNo: {
 		color: "#ccc", 
@@ -44,8 +47,7 @@ const Styles = StyleSheet.create({
 	}
 });
 
-const Track = (props) => {
-	const { tracknr, name, duration, last } = props;
+const Track = ({ tracknr, name, duration, last }) => {
 	return (
 		<View style={last ? Styles.trackViewNoBorder : Styles.trackView}>
 			<Text style={Styles.trackNo}>{tracknr}</Text>
