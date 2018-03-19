@@ -17,3 +17,60 @@ exports[`renders without crashing 1`] = `
   />
 </View>
 `;
+
+exports[`renders without crashing 2`] = `
+<View>
+  <Image
+    source={
+      Object {
+        "uri": undefined,
+      }
+    }
+    style={
+      Object {
+        "height": 300,
+        "marginBottom": 10,
+        "position": "relative",
+        "width": 300,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "#000",
+        "bottom": 10,
+        "opacity": 0.5,
+        "padding": 4,
+        "position": "absolute",
+        "width": 300,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#fff",
+          "textAlign": "center",
+        }
+      }
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ccc",
+          "textAlign": "center",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`renders without crashing 3`] = `null`;

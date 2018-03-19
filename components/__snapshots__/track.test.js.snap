@@ -1,18 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders without crashing 1`] = `
-<Text
-  accessible={true}
-  allowFontScaling={true}
-  ellipsizeMode="tail"
+<View
   style={
     Object {
-      "color": "#fff",
-      "padding": 2,
+      "borderBottomColor": "#282828",
+      "borderBottomWidth": 1,
+      "flex": 1,
+      "flexDirection": "row",
+      "margin": 0,
+      "padding": 0,
     }
   }
 >
-   
-   
-</Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#ccc",
+        "marginRight": 4,
+        "padding": 2,
+        "paddingTop": 6,
+        "textAlign": "center",
+        "width": 20,
+      }
+    }
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#ccc",
+        "padding": 2,
+        "paddingTop": 6,
+      }
+    }
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#ccc",
+        "marginLeft": "auto",
+        "padding": 2,
+        "paddingTop": 6,
+      }
+    }
+  >
+    NaN: NaN
+  </Text>
+</View>
 `;

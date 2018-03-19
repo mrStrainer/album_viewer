@@ -5,11 +5,7 @@ const FetchError = (props) => {
 	if (!props.error) 
 		return null;
 	const message = props.error.message;
-	
-	return (
-		<View>
-			<Text>Fetch aint happening: {message}</Text>
-		</View>
-    );
+
+	return <Text>Fetch aint happening: {message}</Text>;
 }
 export default FetchError; 

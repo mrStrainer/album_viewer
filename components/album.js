@@ -56,7 +56,7 @@ export default class Album extends React.Component {
             return (
                 <View style={{ flex: 1}}>
                     <AlbumHeader url={album.image.url} name={album.name} release_date={album.release_date}/>
-                    {album.tracks.map((item) => <Track key={item.track_number} name={item.name} style={textStyles.centerText}/>)}
+                    {album.tracks.map((item, i) => <Track key={item.track_number} tracknr={item.track_number}  duration={item.duration_ms} name={item.name} last={i === album.tracks.length-1 ? true : false}/>)}
                 </View>       
             )
         } 
