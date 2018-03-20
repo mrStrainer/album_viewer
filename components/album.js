@@ -29,7 +29,7 @@ export default class Album extends React.Component {
     }
 
     getAlbum(id = 0) {
-        return fetch(`http://192.168.0.31:8080/v1/albums/${id}`)
+        return fetch(`http://localhost:8080/v1/albums/${id}`)
             .then(response => response.json())
             .then(
                 (data) => {
@@ -50,7 +50,7 @@ export default class Album extends React.Component {
     }
 
     getAlbumTracks(id = 0) {
-        return fetch(`http://192.168.0.31:8080/v1/albums/${id}/tracks/`)
+        return fetch(`http://localhost:8080/v1/albums/${id}/tracks/`)
             .then(response => response.json())
             .then(
                 (data) => {
@@ -74,7 +74,7 @@ export default class Album extends React.Component {
 
         if (!isLoading) {
             return (
-                <View style={{ flex: 1, alignSelf: 'stretch'}}>
+                <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor:'#181818'}}>
                     <AlbumHeader url={album.image.url} name={album.name} release_date={album.release_date}/>
                     <View style={{flex:1, padding:15, flexDirection: 'column'}}>
                         {album.tracks.map((item, i) => <Track key={item.track_number} tracknr={item.track_number}  duration={item.duration_ms} name={item.name} last={i === album.tracks.length-1 ? true : false}/>)}
