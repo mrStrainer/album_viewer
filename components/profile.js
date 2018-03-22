@@ -1,18 +1,9 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, TextInput, Button } from "react-native";
 import * as firebase from 'firebase';
+import fbconfig from './fbconfig';
 
-const config = {
-    apiKey: "AIzaSyBAeGRgeTb6KPOQAnYhl_xdPi2jbcQkZbg",
-    authDomain: "album-viewer-cd41b.firebaseapp.com",
-    databaseURL: "https://album-viewer-cd41b.firebaseio.com",
-    projectId: "album-viewer-cd41b",
-    storageBucket: "",
-    messagingSenderId: "635655971534"
-  };
-firebase.initializeApp(config);
-
-
+firebase.initializeApp(fbconfig);
 
 class Profile extends React.Component {
 	constructor(props){
@@ -29,36 +20,33 @@ class Profile extends React.Component {
 
 	  firebase.auth().signInWithEmailAndPassword(email, password)
 	    .then((user) => {
-	      console.log(`user:${user}`)
+	      console.log(`user:${user.email} logged in`)
 	    })
 	    .catch((error) => {
 	      const { code, message } = error;
-	      console.error(error)
+	      console.log(`${code}: ${message}`);
 	    });
 	}
 
 	onRegister = () => {
-	  const { email, password } = this.state;
-	  firebase.auth().createUserWithEmailAndPassword(email, password)
-	    .then((user) => {
-	      // If you need to do anything with the user, do it here
-	      // The user will be logged in automatically by the
-	      // `onAuthStateChanged` listener we set up in App.js earlier
-	    })
-	    .catch((error) => {
-	      const { code, message } = error;
-	      // For details of error codes, see the docs
-	      // The message contains the default Firebase string
-	      // representation of the error
+		const { email, password } = this.state;
+
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+		    .then((user) => {
+		    	console.log(`${user.email} registered`);
+		    })
+		    .catch((error) => {
+		     	const { code, message } = error;
+		     	console.log(`${code}: ${message}`);
 	    });
 	}
 
   	componentDidMount() {
 	    this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
-	      this.setState({
-	        loading: false,
-	        user,
-	      });
+	    	this.setState({
+    			loading: false,
+				user,
+	    	});
 	    });
   	}
 
@@ -67,7 +55,7 @@ class Profile extends React.Component {
   	}
 
 	render() {
-		const {userName, pass, loading } = this.state;
+		const { userName, pass, loading } = this.state;
 		return (
 			<View style={{ flex: 1, alignSelf: 'stretch', backgroundColor:'#181818', padding:10}}>
 				<Text style={{color:'#fff', padding:5}}>{'\n'}Login{'\n'}</Text>
@@ -84,7 +72,7 @@ class Profile extends React.Component {
 					placeholder="Password" 
 					onChangeText={(pass) => this.setState({...this.state, pass})}
 				/>
-				<Button onPress={() => this.onLogin} title="Login" color="#ccc" accessibilityLabel="Login"/>
+				<Button onPress={() => this.onLogin} title="Login" color="#181818" accessibilityLabel="Login"/>
 
 				<Text style={{color:'#ccc', fontSize:12, opacity:0.8, justifyContent:'center', padding:5}}>
 					{this.state.user && <Text>Logged in as {this.state.user.email}</Text>}
