@@ -9,13 +9,6 @@ import { Constants } from 'expo';
 
 export default class App extends React.Component {
 
-  //this.yOffset=0;
-
-  handleScroll(event) {
-    //console.log(event.nativeEvent.contentOffset.y);
-    //onScroll={this.handleScroll} scrollEventThrottle={64} 
-  }
-
   render() {
     return (
         <NativeRouter>
