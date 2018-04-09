@@ -1,34 +1,33 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { formatDuration } from './helpers/Utility';
-
 
 const Styles = StyleSheet.create({
-	trackView: {
+	searchItem: {
 		borderBottomColor:'#282828',
 		borderBottomWidth:1,
 		padding:5,
 		margin:0,
 		flexDirection:'row',
-		height:40,
+		height:64,
 		alignItems:'center'
 	},
-	trackViewNoBorder: {
+	searchItemNoBorder: {
 		flex:1,
 		padding:5,
 		margin:0,
 		flexDirection:'row',
-		height:40,
+		height:64,
 		alignItems:'center'
 	},
-	trackTitle: {
+	albumTitle: {
 		color: "#ccc", 
 		padding: 2, 
 		paddingTop:6,
 	},
-	trackNo: {
+	albumImg: {
 		color: "#ccc", 
-		width:20,
+		width:64,
+		height:64,
 		padding: 2, 
 		paddingTop:6,
 		marginRight:4,
@@ -42,14 +41,14 @@ const Styles = StyleSheet.create({
 	}
 });
 
-const Track = ({ tracknr, name, duration, last }) => {
+const SearchItem = ({ id, name, artist, url, last }) => {
 	return (
-		<View style={last ? Styles.trackViewNoBorder : Styles.trackView}>
-			<Text style={Styles.trackNo}>{tracknr}</Text>
-			<Text style={Styles.trackTitle}>{name}</Text>
+		<View style={last ? Styles.searchItemNoBorder : Styles.searchItem}>
+			<Image source={{ uri: url }} style={Styles.albumImg}/>
+			<Text style={Styles.albumTitle}>{name} {artist}</Text>
 			<Text style={Styles.trackTime}>{formatDuration(duration)}</Text>
 		</View>
 	);
 }
 
-export default Track;
+export default SearchItem;
