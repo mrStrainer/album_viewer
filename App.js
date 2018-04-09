@@ -35,10 +35,9 @@ export default class App extends React.Component {
     WebBrowser.dismissBrowser();
 
     const query = event.url.replace(`${Constants.linkingUri}#`, '');
-    let data;
 
     if (query) {
-        data = qs.parse(query);
+        const data = qs.parse(query);
         this.setState({ access_token: data.access_token });
     }
   };
@@ -68,7 +67,7 @@ export default class App extends React.Component {
               title="Log in with Spotify"/>
         </View>
       )
-    return <Redirect to='/search'/>
+    return <Redirect to='/album/2'/>
   };
 
   render() {
@@ -79,16 +78,15 @@ export default class App extends React.Component {
             <Route exact path='/' render={() => <NavItem text='Login'/>}/>
             <Route path='/search' render={()=> <NavItem text='Search'/>}/>
             <Route path='/album/:id' render={
-              ()=> {
+              ()=> 
                 <Link to="/search" underlayColor='#282828' style={styles.navItem}>
                   <Text style={{color:'#fff'}}>Search</Text>
                 </Link>
-              }
             }/>
           </SafeAreaView>
           <ScrollView style={styles.container}>
             <Route exact path="/" render={this.LoginOrSearch}/>
-            <Route path="/album/:id" component={Album}/>
+            <Route path="/album/:id" render={() => <Album token={this.state.access_token}/>}/>
             <Route path="/search" component={Search}/>
           </ScrollView>
         </View>

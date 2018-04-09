@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Platform } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { formatDuration } from './helpers/Utility';
+
 
 const Styles = StyleSheet.create({
 	trackView: {
@@ -16,7 +17,6 @@ const Styles = StyleSheet.create({
 		flex:1,
 		padding:5,
 		margin:0,
-		marginBottom:Platform.OS === 'ios' ? 20:5,
 		flexDirection:'row',
 		height:40,
 		alignItems:'center'

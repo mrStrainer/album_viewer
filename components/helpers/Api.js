@@ -20,12 +20,19 @@ export function createOptions({ method = 'GET',token } = {}) {
 }
 
 export const fetchAlbum = (id = '67smHJOf5YlFwad6dAlppm', options) => {
-	//debuglog
-	console.log(`fetching album - fetchAlbum: ${id}`)
 	return fetch(`https://api.spotify.com/v1/albums/${id}`, options)
 		.then(json)
 		.then(status)
 		.then(res => {
 			return res;
 		});
+}
+
+export const search = (q, options) => {
+	return fetch(`https://api.spotify.com/v1/search?q=${q}&type=album&limit=15`, options)
+		.then(json)
+		.then(status)
+		.then(res => {
+			return res;
+		})
 }

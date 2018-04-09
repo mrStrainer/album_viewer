@@ -17,7 +17,6 @@ const Styles = StyleSheet.create({
         width:300,
         height:300,
         position:'relative',
-	    borderRadius: 150,
 	    borderWidth: 1,
 	    backgroundColor: '#181818'
     },
