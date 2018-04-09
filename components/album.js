@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View } from "react-native";
-import Track from "./track";
+import Track from "./Track";
 import FetchError from "./fetchError";
 import AlbumHeader from "./albumHeader";
 import Placeholder_img from '../src/img/album_cover_def.jpg';
-
+import { fetchAlbum, createOptions } from './helpers/Api'
 
 export default class Album extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = { 
+            albumId:this.props.match.id,
             album: {
                 name: '',
                 artist:'',
@@ -24,30 +25,30 @@ export default class Album extends React.Component {
     componentDidMount() {
         this.setState({isLoading:true});
 
-        this.getAlbum().then(this.getAlbumTracks());
+        //this.getAlbum().then(this.getAlbumTracks());
         //this.getAlbumTracks();
     }
 
-    getAlbum(id = 0) {
-        return fetch(`http://localhost:8080/v1/albums/${id}`)
-            .then(response => response.json())
-            .then(
-                (data) => {
-                    this.setState({ album: {
-                        ...this.state.album,
-                        name:data.name,
-                        artist:data.artists[0].name,
-                        release_date:data.release_date,
-                        image:data.images[1]
-                    }, isLoading: false })
-                },
-                (error) => {
-                    console.error(`\nFetch error: ${error}\n No Album info`);
-                    this.setState({ isLoading:false, error });
-                }
-            )
-            .catch(error => console.error(`\nError: ${error}\n getAlbum fetch`));
-    }
+    // getAlbum(id = 0) {
+    //     return fetch(`http://localhost:8080/v1/albums/${id}`)
+    //         .then(response => response.json())
+    //         .then(
+    //             (data) => {
+    //                 this.setState({ album: {
+    //                     ...this.state.album,
+    //                     name:data.name,
+    //                     artist:data.artists[0].name,
+    //                     release_date:data.release_date,
+    //                     image:data.images[1]
+    //                 }, isLoading: false })
+    //             },
+    //             (error) => {
+    //                 console.error(`\nFetch error: ${error}\n No Album info`);
+    //                 this.setState({ isLoading:false, error });
+    //             }
+    //         )
+    //         .catch(error => console.error(`\nError: ${error}\n getAlbum fetch`));
+    // }
 
     getAlbumTracks(id = 0) {
         return fetch(`http://localhost:8080/v1/albums/${id}/tracks/`)
