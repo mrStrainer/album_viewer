@@ -35,7 +35,6 @@ class Search extends React.Component {
 						id:item.id,
 						image:item.images[2]
 					};
-					//console.log(album.name);
 					return album;
 				});
 				return albums;
@@ -51,8 +50,8 @@ class Search extends React.Component {
 		const { results } = this.state;
 		if (results.length > 0) 
 			return results.map(
-					(album,i) => <SearchItem key={album.id} id={album.id} url={album.image.url} name={album.name} artist={album.artist} last={i === results.length-1 ? true : false}/>
-				)
+				(album,i) => <SearchItem key={album.id} id={album.id} url={album.image.url} name={album.name} artist={album.artist} last={i === results.length-1 ? true : false}/>
+			)
 		return <Text style={{color:'#ccc'}}>Search for something</Text>
 	}
 	render() {

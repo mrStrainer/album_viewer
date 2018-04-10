@@ -34,5 +34,5 @@ export const searchAlbum = (q, options) => {
 		.then(status)
 		.then(res => {
 			return res;
-		})
+		});
 }

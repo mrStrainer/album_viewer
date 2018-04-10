@@ -40,12 +40,6 @@ const Styles = StyleSheet.create({
 		padding: 2, 
 		paddingTop:6,
 		marginRight:5,
-	},
-	trackTime: {
-		color: "#ccc", 
-		padding: 2, 
-		paddingTop:6,
-		marginLeft:'auto'
 	}
 });
 

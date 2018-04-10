@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ActivityIndicator, View } from "react-native";
 import Track from "./Track";
-import FetchError from "./fetchError";
 import AlbumHeader from "./albumHeader";
 import Placeholder_img from '../src/img/album_cover_def.jpg';
 import { fetchAlbum, createOptions } from './helpers/Api'
