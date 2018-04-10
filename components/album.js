@@ -11,7 +11,7 @@ export default class Album extends React.Component {
         super(props)
 
         this.state = { 
-            albumId: '67smHJOf5YlFwad6dAlppm',//this.props.match.id,
+            albumId: this.props.match.params.id,
             album: {
                 name: '',
                 artist:'',
@@ -25,7 +25,7 @@ export default class Album extends React.Component {
     componentDidMount() {
         this.setState({isLoading:true});
         fetchAlbum(this.state.albumId, createOptions({ method: 'GET', token:this.props.token}))
-            .then(album =>{
+            .then(album => {
                 this.setState({
                     ...this.state,
                     album: {
@@ -37,20 +37,19 @@ export default class Album extends React.Component {
                     }, 
                     isLoading:false
                 });
-            })
+            }).catch(error => console.log(`Cant get album: ${error}`));
     }
 
 
     render() {
         const { isLoading, album } = this.state;
 
-
         if (!isLoading) {
             return (
                 <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor:'#181818'}}>
                     <AlbumHeader url={album.image.url} name={album.name} release_date={album.artist}/>
-                    <View style={{flex:1, padding:15, flexDirection: 'column'}}>
-                        {album.tracks.map((item, i) => <Track key={item.track_number} tracknr={item.track_number}  duration={item.duration_ms} name={item.name} last={i === album.tracks.length-1 ? true : false}/>)}
+                    <View style={{flex:1, padding:10, flexDirection: 'column'}}>
+                        {album.tracks.map((item, i) => <Track key={item.id} tracknr={item.track_number}  duration={item.duration_ms} name={item.name} last={i === album.tracks.length-1 ? true : false}/>)}
                     </View>
                 </View>       
             )

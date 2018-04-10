@@ -1,11 +1,13 @@
-import React from "react";
-import { StyleSheet, Text, ScrollView, SafeAreaView, View, Platform, Button, Linking } from "react-native";
-import { NativeRouter, Route, Link, Redirect } from "react-router-native";
+import React from 'react';
+import { StyleSheet, Text, ScrollView, SafeAreaView, View, Platform, Button, Linking } from 'react-native';
+import { NativeRouter, Route, Link, Redirect } from 'react-router-native';
 import { Constants, WebBrowser } from 'expo';
+
 import qs from 'qs'
 
-import Album from "./components/Album";
-import Search from "./components/Search";
+import StyledInput from './components/StyledInput';
+import Album from './components/Album';
+import Search from './components/Search';
 
 const redirectUri = 'https://accounts.spotify.com/authorize?' +
     qs.stringify({
@@ -17,7 +19,7 @@ const redirectUri = 'https://accounts.spotify.com/authorize?' +
 
 const NavItem = ({ text }) => {
   return (
-    <View style={styles.navItem}>
+    <View style={Styles.navItem}>
       <Text style={{color:'#ccc', fontSize:16}}>{text}</Text>
     </View>
   )
@@ -28,10 +30,11 @@ export default class App extends React.Component {
     super(props)
     this.state = {
         access_token: null,
+        searchQ:null,
       };
   }
 
-  _handleRedirect = event => {
+  HandleRedirect = event => {
     WebBrowser.dismissBrowser();
 
     const query = event.url.replace(`${Constants.linkingUri}#`, '');
@@ -42,52 +45,51 @@ export default class App extends React.Component {
     }
   };
 
-  _openWebBrowserAsync = async () => {
+  OpenWebBrowserAsync = async () => {
       this._addLinkingListener();
 
       let result = await WebBrowser.openBrowserAsync(redirectUri);
       this._removeLinkingListener();
-      this.setState({ result });
     };
 
   _addLinkingListener = () => {
-    Linking.addEventListener('url', this._handleRedirect);
+    Linking.addEventListener('url', this.HandleRedirect);
   };
 
   _removeLinkingListener = () => {
-    Linking.removeEventListener('url', this._handleRedirect);
+    Linking.removeEventListener('url', this.HandleRedirect);
   };
 
   LoginOrSearch = () => {
     if (this.state.access_token === null) 
       return (
-        <View style={styles.center}>
+        <View style={Styles.center}>
           <Button
-              onPress={this._openWebBrowserAsync}
-              title="Log in with Spotify"/>
+              onPress={this.OpenWebBrowserAsync}
+              title='Log in with Spotify'/>
         </View>
       )
-    return <Redirect to='/album/2'/>
+    return <Redirect to='/search'/>
   };
 
   render() {
     return (
       <NativeRouter>
         <View style={{flex:1, backgroundColor:'#181818'}}>
-          <SafeAreaView style={styles.nav}>
+          <SafeAreaView style={Styles.nav}>
             <Route exact path='/' render={() => <NavItem text='Login'/>}/>
-            <Route path='/search' render={()=> <NavItem text='Search'/>}/>
+            <Route path='/search' render={()=> <NavItem text='Search'/> }/>
             <Route path='/album/:id' render={
               ()=> 
-                <Link to="/search" underlayColor='#282828' style={styles.navItem}>
-                  <Text style={{color:'#fff'}}>Search</Text>
+                <Link to='/search' underlayColor='#282828' style={Styles.navItem}>
+                  <Text style={{color:'#fff', fontSize:16}}>{`< Search`}</Text>
                 </Link>
             }/>
           </SafeAreaView>
-          <ScrollView style={styles.container}>
-            <Route exact path="/" render={this.LoginOrSearch}/>
-            <Route path="/album/:id" render={() => <Album token={this.state.access_token}/>}/>
-            <Route path="/search" component={Search}/>
+          <ScrollView style={Styles.container}>
+            <Route exact path='/' render={this.LoginOrSearch}/>
+            <Route path='/album/:id' render={(props) => <Album token={this.state.access_token} {...props}/>}/>
+            <Route path='/search' render={(props) => <Search token={this.state.access_token} {...props}/>}/>
           </ScrollView>
         </View>
       </NativeRouter>
@@ -95,17 +97,11 @@ export default class App extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   container: {
     flex:1,
     flexDirection:'column',
-    paddingTop:15,
-  },
-  safeArea: {
-    flex:1,
-    backgroundColor:'#181818',
-    padding:0,
-    paddingTop: 0
+    paddingTop:10,
   },
   nav: {
     paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight,
@@ -120,11 +116,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     padding:10,
     backgroundColor:'#282828',
-  },
-  header: {
-    fontSize: 25,
-    marginBottom: 25,
-    color:'#cccccc'
   },
   center: {
     flex: 1,

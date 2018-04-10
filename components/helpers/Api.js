@@ -28,7 +28,7 @@ export const fetchAlbum = (id = '67smHJOf5YlFwad6dAlppm', options) => {
 		});
 }
 
-export const search = (q, options) => {
+export const searchAlbum = (q, options) => {
 	return fetch(`https://api.spotify.com/v1/search?q=${q}&type=album&limit=15`, options)
 		.then(json)
 		.then(status)
