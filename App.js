@@ -1,3 +1,5 @@
+import './ReactotronConfig'
+
 import React from 'react';
 import { StyleSheet, Text, ScrollView, SafeAreaView, View, Platform, Button, Linking } from 'react-native';
 import { NativeRouter, Route, Link, Redirect } from 'react-router-native';
