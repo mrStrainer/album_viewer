@@ -19,7 +19,9 @@ class Search extends React.Component {
 		this.state = {
 			searchQ:null,
 			results:[],
+			total:null,
 			isLoading:false,
+			error:null
 		}
 	}
 
@@ -28,6 +30,7 @@ class Search extends React.Component {
 
 		return searchAlbum(this.state.searchQ, createOptions({ method: 'GET', token:this.props.token}))
 			.then(results => {
+				const { total } = results.albums;
 				const albums = results.albums.items.map(item => {
 					const album = { 
 						name:item.name,
@@ -37,21 +40,34 @@ class Search extends React.Component {
 					};
 					return album;
 				});
-				return albums;
-			}).then(albums => 
+				return {total,albums};
+			}).then(result => 
 				this.setState({
 					...this.state,
-					results:albums,
+					results:result.albums,
+					total:result.total,
 					isLoading:false,
 				})
-			).catch(error => console.log(`Search didnt go through: ${error}`));
+			).catch(error => {
+				this.setState({
+					...this.state,
+					isLoading:false,
+					error
+				})
+			});
 	}
 	RenderItems = () => {
-		const { results } = this.state;
+		const { results, total, error } = this.state;
+		if (error)
+				return <Text style={{color:'#ccc'}}>Something went wrong. {this.state.error}</Text>
 		if (results.length > 0) 
 			return results.map(
 				(album,i) => <SearchItem key={album.id} id={album.id} url={album.image.url} name={album.name} artist={album.artist} last={i === results.length-1 ? true : false}/>
 			)
+
+		if (total === 0) 
+			return <Text style={{color:'#ccc'}}>Couldn't find {this.state.searchQ}</Text>
+
 		return <Text style={{color:'#ccc'}}>Search for something</Text>
 	}
 	render() {

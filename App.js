@@ -18,6 +18,13 @@ const redirectUri = 'https://accounts.spotify.com/authorize?' +
     scope: 'user-read-private user-read-email',
     redirect_uri: Constants.linkingUri
 });
+//ignore warnings until fix
+import { YellowBox } from 'react-native';
+
+YellowBox.ignoreWarnings([
+  'Warning: componentWillMount is deprecated',
+  'Warning: componentWillReceiveProps is deprecated',
+]);
 
 const NavItem = ({ text }) => {
     return (

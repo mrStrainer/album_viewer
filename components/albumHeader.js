@@ -23,7 +23,7 @@ const Styles = StyleSheet.create({
     imageOverlay: {
 		width:300,
     	backgroundColor:'#181818',
-    	opacity:0.5,
+    	opacity:0.8,
 		position:'absolute',
 		bottom:0,
 		padding:5,
