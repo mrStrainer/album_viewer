@@ -39,14 +39,14 @@ const Styles = StyleSheet.create({
 
 }); 
 
-const AlbumHeader = ({ url, name, release_date }) => {
+const AlbumHeader = ({ url, name, artist }) => {
 	//const { url, name, release_date } = props;
 	return (
 		<View style={Styles.headerView}>	
 			<Image source={{ uri: url}} style={Styles.headerImage}/>
 			<View style={Styles.imageOverlay}>
 	 	    	<Text style={Styles.albumName}>{name}</Text>
- 	    		<Text style={Styles.releaseDate}>{release_date}</Text>
+ 	    		<Text style={Styles.releaseDate}>{artist}</Text>
 			</View>
 		</View>
 	);
