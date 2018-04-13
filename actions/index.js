@@ -10,24 +10,23 @@ export const requestAlbum = albumId => ({
 	albumId
 })
 
-export const requestSearch = albumId => ({
-	type:REQUEST_SEARCH,
-	searchQ
-})
-
 export const receiveAlbum = album => ({
 	type:RECEIVE_ALBUM,
 	album, 
 })
 
+export const requestSearch = searchQ => ({
+	type:REQUEST_SEARCH,
+	searchQ
+})
+
 export const receiveSearch = results => ({
-	type:RECEIVE_ALBUM,
+	type:RECEIVE_SEARCH,
 	results,
 })
 
 export const login = token => ({
 	type: LOGIN,
-	isLoggedIn:true,
 	token
 })
 
@@ -86,7 +85,8 @@ const fetchAlbum = (albumId, token) => dispatch => {
 }
 
 const searchAlbum = (searchQ, token) => dispatch => {
-	return fetch(`https://api.spotify.com/v1/search?q=${q}&type=album&limit=15`, {
+	dispatch(requestSearch)
+	return fetch(`https://api.spotify.com/v1/search?q=${searchQ}&type=album&limit=15`, {
 			method: `GET`,
 			headers: {
 				"Accept": "application/json",

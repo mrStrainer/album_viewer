@@ -21,7 +21,8 @@
     "preset": "jest-expo",
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router-native)/"
-    ]
+    ],
+    "setupFiles": ["./jest_setup.js"]
   },
   "dependencies": {
     "expo": "^26.0.0",
