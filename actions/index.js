@@ -8,27 +8,32 @@ export const LOGOUT = 'LOGOUT'
 export const requestAlbum = albumId => ({
 	type:REQUEST_ALBUM,
 	albumId
-});
+})
+
 export const requestSearch = albumId => ({
 	type:REQUEST_SEARCH,
 	searchQ
-});
+})
+
 export const receiveAlbum = album => ({
 	type:RECEIVE_ALBUM,
 	album, 
-});
+})
+
 export const receiveSearch = results => ({
 	type:RECEIVE_ALBUM,
 	results,
-});
+})
+
 export const login = token => ({
 	type: LOGIN,
 	isLoggedIn:true,
 	token
-});
+})
+
 export const logout = () => ({
 	type:LOGOUT
-});
+})
 
 const json = response => response.json()
 
@@ -38,7 +43,7 @@ const status = response => {
 		throw `${status}: ${message}`;
 	}
 	return response;
-};
+}
 
 const albumResponse = album => ({
     name: album.name,
@@ -47,8 +52,9 @@ const albumResponse = album => ({
     release_date:album.release_date,
     tracks:album.tracks.items,
     image:album.images[1]
-});
-const searchResponse = results = {
+})
+
+const searchResponse = results => {
 	const { total, items:responseAlbums  } = results.albums;
 	const albums = responseAlbums.map(album => ({
 		name:album.name,
@@ -62,6 +68,7 @@ const searchResponse = results = {
 		albums
 	}
 }
+
 const fetchAlbum = (albumId, token) => dispatch => {
 	dispatch(requestAlbum(albumId));
  	return fetch(`https://api.spotify.com/v1/albums/${albumId}`, {
@@ -70,12 +77,14 @@ const fetchAlbum = (albumId, token) => dispatch => {
 				"Accept": "application/json",
 				"Content-Type": "application/json",
 				"Authorization": `Bearer ${token}`
+			}
 		})
  		.then(json)
  		.then(status)
  		.then(albumResponse)
  		.then(album => dispatch(receiveAlbum(album)));
-};
+}
+
 const searchAlbum = (searchQ, token) => dispatch => {
 	return fetch(`https://api.spotify.com/v1/search?q=${q}&type=album&limit=15`, {
 			method: `GET`,
@@ -83,6 +92,7 @@ const searchAlbum = (searchQ, token) => dispatch => {
 				"Accept": "application/json",
 				"Content-Type": "application/json",
 				"Authorization": `Bearer ${token}`
+			}
 		})
 		.then(json)
 		.then(status)

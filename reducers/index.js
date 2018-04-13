@@ -72,3 +72,11 @@ const login = (state ={
 			return state;
 	}
 }
+
+const rootReducer = combineReducers({
+	currentAlbum,
+	currentSearch,
+	login
+})
+
+export default rootReducer;

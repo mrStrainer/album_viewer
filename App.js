@@ -1,4 +1,4 @@
-import './ReactotronConfig'
+import './ReactotronConfig';
 import React from 'react';
 import { Provider } from 'react-redux'
 import { StyleSheet, Text, ScrollView, SafeAreaView, View, Platform, Button, Linking } from 'react-native';

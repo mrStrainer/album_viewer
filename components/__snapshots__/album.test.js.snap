@@ -4,22 +4,13 @@ exports[`renders without crashing 1`] = `
 <View
   style={
     Object {
-      "flex": 1,
-      "padding": 20,
+      "alignItems": "center",
+      "backgroundColor": "#181818",
+      "height": 300,
+      "marginBottom": 10,
     }
   }
 >
-  <ActivityIndicator
-    animating={true}
-    color="#999999"
-    hidesWhenStopped={true}
-    size="small"
-  />
-</View>
-`;
-
-exports[`renders without crashing 2`] = `
-<View>
   <Image
     source={
       Object {
@@ -28,8 +19,9 @@ exports[`renders without crashing 2`] = `
     }
     style={
       Object {
+        "backgroundColor": "#181818",
+        "borderWidth": 1,
         "height": 300,
-        "marginBottom": 10,
         "position": "relative",
         "width": 300,
       }
@@ -38,10 +30,12 @@ exports[`renders without crashing 2`] = `
   <View
     style={
       Object {
-        "backgroundColor": "#000",
-        "bottom": 10,
-        "opacity": 0.5,
-        "padding": 4,
+        "backgroundColor": "#181818",
+        "bottom": 0,
+        "opacity": 0.8,
+        "padding": 5,
+        "paddingBottom": 14,
+        "paddingTop": 9,
         "position": "absolute",
         "width": 300,
       }
@@ -54,6 +48,8 @@ exports[`renders without crashing 2`] = `
       style={
         Object {
           "color": "#fff",
+          "fontSize": 16,
+          "fontWeight": "bold",
           "textAlign": "center",
         }
       }
@@ -65,6 +61,7 @@ exports[`renders without crashing 2`] = `
       style={
         Object {
           "color": "#ccc",
+          "fontSize": 12,
           "textAlign": "center",
         }
       }
@@ -73,4 +70,72 @@ exports[`renders without crashing 2`] = `
 </View>
 `;
 
-exports[`renders without crashing 3`] = `null`;
+exports[`renders without crashing 2`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#181818",
+      "height": 300,
+      "marginBottom": 10,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": undefined,
+      }
+    }
+    style={
+      Object {
+        "backgroundColor": "#181818",
+        "borderWidth": 1,
+        "height": 300,
+        "position": "relative",
+        "width": 300,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "#181818",
+        "bottom": 0,
+        "opacity": 0.8,
+        "padding": 5,
+        "paddingBottom": 14,
+        "paddingTop": 9,
+        "position": "absolute",
+        "width": 300,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#fff",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "textAlign": "center",
+        }
+      }
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#ccc",
+          "fontSize": 12,
+          "textAlign": "center",
+        }
+      }
+    />
+  </View>
+</View>
+`;
