@@ -48,13 +48,13 @@ describe('search actions', () => {
 		})
 	})
 
-	const results = {
-		total:0,
-		albums:[]
-	}
-
 	it('receiveSearch should create RECEIVE_SEARCH action', () => {
-		expect(actions.receiveSearch(results)).toEqual({
+		expect(
+			actions.receiveSearch({
+				total:0,
+				albums:[]
+			})
+		).toEqual({
 			type:'RECEIVE_SEARCH',
 			results: {
 				total:0,
@@ -65,10 +65,9 @@ describe('search actions', () => {
 })	
 
 describe('login actions', () => {
-	const token = 'token'
 
 	it('login should create LOGIN action', () => {
-		expect(actions.login(token)).toEqual({
+		expect(actions.login('token')).toEqual({
 			type:'LOGIN',
 			token:'token'
 		})
