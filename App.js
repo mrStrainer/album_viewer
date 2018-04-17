@@ -1,15 +1,15 @@
 import './ReactotronConfig';
 import React from 'react';
 import { Provider } from 'react-redux'
-import { StyleSheet, Text, ScrollView, SafeAreaView, View, Platform, Button, Linking } from 'react-native';
+import { StyleSheet, Text, ScrollView, SafeAreaView, View, Platform, Button, Linking, TouchableHighlight } from 'react-native';
 import { NativeRouter, Route, Link, Redirect } from 'react-router-native';
 import { Constants, WebBrowser } from 'expo';
-
+import store/*, { history } */from './store'
 import qs from 'qs'
 
 import StyledInput from './components/StyledInput';
 import Album from './components/Album';
-import Search from './components/Search';
+import SearchContainer from './components/Containers/SearchContainer';
 
 //ignore warnings until fix
 import { YellowBox } from 'react-native';
@@ -25,15 +25,33 @@ const redirectUri = 'https://accounts.spotify.com/authorize?' +
     scope: 'user-read-private user-read-email',
     redirect_uri: Constants.linkingUri
 });
-
-const NavItem = ({ text }) => {
+const BackButton =({ history }) => {
+    goBack = () => {
+        history.goBack();
+    }
+    return history.index !== 0 ? (
+        <TouchableHighlight onPress={this.goBack}>
+            <Text style={{color:'#ccc', fontSize:16}}>{'<'}</Text> 
+        </TouchableHighlight>): (null);
+}
+const ForwardButton = ({ history }) => {
+    goForward = () => {
+        history.goForward();
+    }
+    return history.index !== history.length-1 ? (
+        <TouchableHighlight onPress={this.goForward} style={{width:15}}>
+            <Text style={{color:'#ccc', fontSize:16}}>{'>'}</Text> 
+        </TouchableHighlight>): (null);
+}
+const NavItem = ({ text, history }) => {
     return (
-        <View style={Styles.navItem}>
-            <Text style={{color:'#ccc', fontSize:16}}>{text}</Text>
+        <View style={{flex:1, flexDirection:'row', height:30, alignItems:'center', justifyContent:'space-between'}}>
+            <BackButton history={history} style={{width:15}}/>
+            <Link to='/'  style={{width:'auto'}}><Text style={{color:'#ccc', fontSize:16}}>{text}</Text></Link>
+            <ForwardButton history={history}  style={{width:15, marginRight:'auto'}}/>
         </View>
     )
 }
-
 export default class App extends React.Component {
     constructor(props) {
         super(props)
@@ -51,6 +69,7 @@ export default class App extends React.Component {
         if (query) {
             const data = qs.parse(query);
             this.setState({ access_token: data.access_token });
+            //const { login } = this.props.login
         }
     };
 
@@ -81,28 +100,25 @@ export default class App extends React.Component {
 
         return <Redirect to='/search'/>
     };
-
+/* ROUTER history={history}*/
     render() {
         return (
-            <NativeRouter>
-                <View style={{flex:1, backgroundColor:'#181818'}}>
-                    <SafeAreaView style={Styles.nav}>
-                        <Route exact path='/' render={() => <NavItem text='Login'/>}/>
-                        <Route path='/search' render={()=> <NavItem text='Search'/> }/>
-                        <Route path='/album/:id' render={
-                            ()=> 
-                                <Link to='/search' underlayColor='#282828' style={Styles.navItem}>
-                                    <Text style={{color:'#fff', fontSize:16}}>{`< Search`}</Text>
-                                </Link>
-                        }/>
-                    </SafeAreaView>
-                    <ScrollView style={Styles.container}>
-                        <Route exact path='/' render={this.LoginOrSearch}/>
-                        <Route path='/album/:id' render={(props) => <Album token={this.state.access_token} {...props}/>}/>
-                        <Route path='/search' render={(props) => <Search token={this.state.access_token} {...props}/>}/>
-                    </ScrollView>
-                </View>
-            </NativeRouter>
+            <Provider store={store}>
+                <NativeRouter>
+                    <View style={{flex:1, backgroundColor:'#181818'}}>
+                        <SafeAreaView style={Styles.nav}>
+                            <Route exact path='/' render={(props) => <NavItem text='Login' {...props}/> }/>
+                            <Route path='/search' render={(props)=> <NavItem text='Search'  {...props}/> }/>
+                            <Route path='/album/:id' render={(props)=> <NavItem text='Album' {...props}/> }/>
+                        </SafeAreaView>
+                        <ScrollView style={Styles.container}>
+                            <Route exact path='/' render={this.LoginOrSearch}/>
+                            <Route path='/album/:id' render={(props) => <Album token={this.state.access_token} {...props}/>}/>
+                            <Route path='/search' component={SearchContainer}/>
+                        </ScrollView>
+                    </View>
+                </NativeRouter>
+            </Provider>
         );
     }
 }
@@ -119,11 +135,14 @@ const Styles = StyleSheet.create({
         justifyContent:'space-between',
         backgroundColor:'#282828',
         borderBottomColor:'#181818',
-        borderBottomWidth:2
+        borderBottomWidth:2,
+        alignItems:'center'
     },
     navItem: {
         flex:1,
         alignItems:'center',
+        flexDirection:'row',
+        justifyContent:'space-between',
         padding:10,
         backgroundColor:'#282828',
     },

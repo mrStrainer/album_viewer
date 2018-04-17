@@ -84,8 +84,8 @@ const fetchAlbum = (albumId, token) => dispatch => {
  		.then(album => dispatch(receiveAlbum(album)));
 }
 
-const searchAlbum = (searchQ, token) => dispatch => {
-	dispatch(requestSearch)
+export const searchAlbum = (searchQ, token) => dispatch => {
+	dispatch(requestSearch(searchQ))
 	return fetch(`https://api.spotify.com/v1/search?q=${searchQ}&type=album&limit=15`, {
 			method: `GET`,
 			headers: {

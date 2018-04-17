@@ -22,15 +22,20 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router-native)/"
     ],
-    "setupFiles": ["./jest_setup.js"]
+    "setupFiles": [
+      "./jest_setup.js"
+    ]
   },
   "dependencies": {
     "expo": "^26.0.0",
+    "history": "^4.7.2",
     "qs": "^6.5.1",
     "react": "16.3.0-alpha.1",
     "react-native": "0.54.0",
     "react-redux": "^5.0.7",
     "react-router-native": "^4.2.0",
-    "redux": "^3.7.2"
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   }
 }
